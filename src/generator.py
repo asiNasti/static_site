@@ -1,5 +1,6 @@
 import os
 import shutil
+import re
 
 from block import markdown_to_html_node
 
@@ -25,7 +26,7 @@ def extract_title(markdown):
     raise Exception('there is no h1 header')
         
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     with open(from_path, "r") as m:
         markdown = m.read()
@@ -38,13 +39,15 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown)
 
     final_html = template.replace("{{ Title }}", title).replace("{{ Content }}", html_text)
+    final_html = re.sub(r'href="/', f'href="{basepath}', final_html)
+    final_html = re.sub(r'src="/', f'src="{basepath}', final_html)
     if not os.path.exists(os.path.dirname(dest_path)):
         os.makedirs(os.path.dirname(dest_path), exist_ok=True)
 
     with open(dest_path, "w") as f:
         f.write(final_html)
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     os.makedirs(dest_dir_path, exist_ok=True)
 
     for item in os.listdir(dir_path_content):
@@ -54,7 +57,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         if os.path.isfile(path_to_item) and item.endswith(".md"):
             html_name = item.replace(".md", ".html")
             path_to_dest = os.path.join(dest_dir_path, html_name)
-            generate_page(path_to_item, template_path, path_to_dest)
+            generate_page(path_to_item, template_path, path_to_dest, basepath)
 
         elif os.path.isdir(path_to_item):
-            generate_pages_recursive(path_to_item, template_path, path_to_dest)
+            generate_pages_recursive(path_to_item, template_path, path_to_dest, basepath)
