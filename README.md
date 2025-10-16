@@ -6,4 +6,4 @@ This Static Site Generator takes source content (e.g., Markdown files) and an HT
 ## 📚 Learning Source
 This project was developed in connection with the following educational resource, which provided the foundational concepts and structure:
 
-[Boot.dev Static Site Generator in Python]https://www.boot.dev/courses/build-static-site-generator-python
+[Boot.dev Static Site Generator in Python](https://www.boot.dev/courses/build-static-site-generator-python)
