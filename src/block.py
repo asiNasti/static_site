@@ -1,8 +1,7 @@
 from enum import Enum
-from itertools import count
 import re
 
-from htmlnode import HTMLNode, ParentNode
+from htmlnode import ParentNode
 from text_processing import text_to_textnodes, text_node_to_html_node
 from textnode import TextType, TextNode
 
@@ -78,7 +77,7 @@ def heading_block_to_html(block):
             level += 1
             continue
         break
-    clean_text = block[level+1:].srtip()
+    clean_text = block[level+1:].strip()
     children = text_to_children(clean_text)
     return ParentNode(f"h{level}", children=children)
 

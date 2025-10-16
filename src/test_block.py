@@ -167,7 +167,7 @@ This is a paragraph under the heading.
 
 > This is a quote.
 
-* List item.
+- List item.
 
 1. Ordered item.
 
